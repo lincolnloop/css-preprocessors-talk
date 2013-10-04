@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>CSS Preprocessors - Presented by Michael Trythall</title>
+
+		<meta name="description" content="An introduction to CSS preprocessors">
+		<meta name="author" content="Michael Trythall">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- I. Overview -->
+			<div class="slides">
+				<section>
+					<h1>CSS Preprocessors</h1>
+					<p>
+						Presented by 
+							<a href="http://lincolnloop.com/about/mtrythall">Michael Trythall</a> / 
+							<a href="http://twitter.com/mtrythall">@mtrythall</a>
+					</p>
+
+					<br /> <!-- Ugh gross -->
+
+					<p><a href="http://git.io/729TEQ">http://git.io/729TEQ</a> for slides &amp; code samples</p>
+				</section>
+
+				<section>
+					<h2>Hello</h2>
+					<ul>
+						<li>I'm Mike</li>
+						<li>Head of UX at <a href="http://lincolnloop.com/">Lincoln Loop</a></li>
+						<li>Front-end + Design for &gt;15 years</li>
+						<li>Using CSS preprocessors for ~2 years</li>
+					</ul>
+
+					<aside class="notes">
+						<p>This talk exists to:</li>
+
+						<ul>
+							<li>Encourage smart people outside of the JS and Ruby communities to look at this stuff</li>
+							<li>Help folks better understand tools they may already be using</li>
+							<li>Get you liking CSS and to help you feel more confident with it</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Following Along</h2>
+					<p>
+						Slides, examples, and more at
+						<a href="http://git.io/729TEQ">http://git.io/729TEQ</a>
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Provides an overview</li>
+							<li>Examples for Sass/SCSS and LESS</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Trying the Examples</h2>
+					<p><a href="http://sassmeister.com/">http://sassmeister.com/</a> or</p>
+					<p><code>gem install sass</code> and <code>sass file</code></p>
+				</section>
+
+				<section data-background="#007777">
+					<h2>kthx let's go</h2>
+				</section>
+
+				<!-- II. What, why -->
+				<section>
+					<h2>What are CSS Preprocessors?</h2>
+					<p>
+						Think CoffeeScript for CSS, sorta kinda
+					</p>
+				</section>
+
+				<section>
+					<h2>Why use a CSS preprocessor?</h2>
+					<img width="340" src="http://31.media.tumblr.com/tumblr_lm2n7l69sO1qii6tmo1_250.gif" alt="Barney WHY??" />
+
+					<aside class="notes">
+						<ul>
+							<li>Standards move too slow</li>
+							<li>Lot of tools available, speeding up development</li>
+							<li>Force best practices, otherwise you'll make a mess</li>
+							<li>Debugging. Preprocessors will throw errors even for basic CSS problems.</li>
+							<li>Can DRY up your styles</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>What's out there?</h2>
+					<p><a href="http://sass-lang.com">Sass</a> and <a href="http://lesscss.org">LESS</a> are the big dogs</p>
+
+					<aside class="notes">
+						<p>Don't forget Stylus!</p>
+					</aside>
+				</section>
+
+				<section data-background="#007777">
+					<h2>What's the Difference?</h2>
+				</section>
+
+				<section>
+					<h2>Sass/SCSS</h2>
+					<ul>
+						<li>Ruby-powered</li>
+						<li>Has <a href="http://compass-style.org/">Compass</a></li>
+						<li>Used by designers and FE folks</li>
+						<li>Very friendly syntax</li>
+						<li>More features than other preprocessors</li>
+						<li>Ecosystem better for building custom things</li>
+						<li>Docs complete but not pretty</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>LESS</h2>
+					<ul>
+						<li>JavaScript-powered</li>
+						<li>Has <a href="http://getbootstrap.com/">Bootstrap</a></li>
+						<li>Used by lots of people, but mostly Bootstrap users</li>
+						<li>Stranger syntax than Sass/SCSS</li>
+						<li>Fewer, but enough, features</li>
+						<li>Ecosystem better for building Bootstrappy things</li>
+						<li>Docs complete (enough) and very pretty</li>
+					</ul>
+				</section>
+
+				<!-- II. Walkthrough -->
+				<section data-background="#007777">
+					<h2>Alright, what can they do?</h2>
+				</section>
+
+				<section>
+					<h2>Nesting</h2>
+					<pre><code data-trim contenteditable>
+header {
+    font-size: 5em;
+    
+    .title { // header .title { font-size: 10em; }
+        font-size: 10em;
+
+        a { // header .title a { background: green; color: white; }
+            background: green;
+            color: white;
+        }
+    }
+}
+					</code></pre>
+
+					<pre><code data-trim contenteditable>
+header {
+  font-size: 5em;
+}
+header .title {
+  font-size: 10em;
+}
+header .title a {
+  background: green;
+  color: white;
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Parent References</h2>
+					
+					<pre><code data-trim contenteditable>
+					
+a {
+    color: blue;
+
+    &:hover { // a:hover
+        color: yellow;
+    }
+}
+
+a {
+    nav & { // nav a
+        color: green;
+    }
+}
+					</code></pre>
+					<pre><code data-trim contenteditable>
+					
+a {
+  color: blue; 
+}
+
+a:hover {
+	color: yellow; 
+}
+
+nav a {
+  color: green; 
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Imports</h2>
+					<p>Non-blocking, single file imports</p>
+					<pre><code data-trim contenteditable>
+@import "base";
+
+/* Authored Dependencies */
+@import "mixins";
+@import "partials";
+@import "utility"; // general classes used by everything
+
+/* Patterns */
+@import "global/elements"; // common elements, header, anchors, table, etc
+@import "global/forms";
+@import "global/components"; // special design components, non-interactive widgets
+@import "global/widgets"; // any component with interactivity or IO
+
+/* Structure */
+@import "global/layout";
+@import "global/header";
+@import "global/footer";
+@import "global/side-nav";
+				</code></pre>
+				</section>
+
+				<section>
+					<h2>Variables (SASS/Scss)</h2>
+					<pre><code data-trim contenteditable>
+$font-size: 16px;
+$text-color: blue;
+
+a {
+    color: $text-color; // blue
+}
+
+p {
+    $text-color: green;
+    $background-color: black;
+
+    a {
+        background-color: $background-color;
+        color: $text-color; // green
+    }
+}
+
+h1 {
+    font-size: $font-size * 4; // 64px
+    color: $text-color; // green!
+}
+					</code></pre>
+
+					<aside class="notes">
+						<p>Important to note that scoping is different between Sass/SCSS and LESS. LESS probably does what you'd expect with regard to globals, while Sass/SCSS doesn't really have global variables</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Variables (SASS/Scss compiled)</h2>
+
+					<pre><code data-trim contenteditable>
+a {
+  color: blue;
+}
+
+p a {
+  background-color: black;
+  color: green;
+}
+
+h1 {
+  font-size: 64px;
+  color: green;
+}
+					</code></pre>
+				</section>
+
+							<section>
+					<h2>Variables (LESS)</h2>
+					<pre><code data-trim contenteditable>
+@font-size: 16px;
+@text-color: blue;
+
+a {
+    color: @text-color; // blue
+}
+
+p {
+    @text-color: green;
+    @background-color: black;
+
+    a {
+        background-color: @background-color;
+        color: @text-color; // green
+    }
+}
+
+h1 {
+    font-size: @font-size * 4; // 64px
+    color: @text-color; // blue!
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Variables (LESS, compiled)</h2>
+					<pre>
+						<code data-trim contenteditable>
+a {
+  color: #0000ff;
+}
+p a {
+  background-color: #000000;
+  color: #008000;
+}
+h1 {
+  font-size: 64px;
+  color: #0000ff;
+}
+						</code>
+					</pre>
+
+					<aside class="notes">
+						<p>Note that blue is carried through how you'd expect, but it's converted to HEX.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Math!</h2>
+					
+
+					<pre><code data-trim contenteditable>
+p {
+    $width: 30em;
+
+    font: 30px/2px; // Normal CSS, no division
+    width: $width/2; // Using a variable causes division
+    height: (500px/2); // Uses parentheses, does division
+    margin-left: 10px + 10px/5px; // Uses +, does division
+}
+					</code></pre>
+
+					<pre><code data-trim contenteditable>
+p {
+  font: 30px/2px;
+  width: 15em;
+  height: 250px;
+  margin-left: 12px;
+}
+</code></pre>
+				</section>
+
+				<section>
+					<h2>Built-ins</h2>
+
+					<pre><code data-trim contenteditable>
+p {
+    color: lighten(green, 5%);
+    background-color: darken(yellow, 10%);
+    font-size: ceil(12.78);
+    line-height: floor(12.78);
+}
+
+					</code></pre>
+
+					<pre><code data-trim contenteditable>
+p {
+  color: #009a00;
+  background-color: #cccc00;
+  font-size: 13;
+  line-height: 12; 
+}
+</code></pre>
+
+<p>Plus dozens more</p>
+				</section>
+
+				<section>
+					<h2>Mixins</h2>
+					<pre><code data-trim contenteditable>
+@mixin padding ($param: 1em) { // $param has a default value of 1em
+  padding: $param;
+}
+
+@mixin border ($direction: bottom, $weight: 1px, $style: solid, $color: black) {
+    border-#{$direction}: $weight $style $color; // String interpolation
+}
+
+.box1 {
+    @include padding; // padding: 1em;
+    background: blue;
+}
+
+.box2 {
+    @include padding(5em); // padding: 5em;
+    @include border(left, 10px, dotted, red); // border-left: 10px dotted red;
+    background: green;
+}
+					</code></pre>
+
+					<aside class="notes">
+						<p>Mixins drop in a chunk of CSS wherever they're called. They can take parameters, but are ultimately designed to just spit out CSS.</p>
+
+						<p>Parameters can be optional.</p>
+
+						<p>LESS has guarded mixins, which only execute when a condition is met</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Mixin (compiled)</h2>
+					<pre><code data-trim contenteditable>
+.box2 {
+  padding: 1em;
+  background: blue;
+}
+
+.box1 {
+  padding: 5em;
+  border-left: 10px dotted red;
+  background: green;
+}
+					</code></pre>
+
+					<aside class="notes">
+						
+					</aside>
+				</section>
+
+				<section>
+					<h2>Functions</h2>
+					<p>Not in LESS</p>
+					
+					<pre><code data-trim contenteditable>
+@function add-sizes($size1, $size2){
+  @return $size1 + $size2
+}
+
+p {
+    font-size: add-sizes(3em, 10em);
+}
+					</code></pre>
+
+										<pre><code data-trim contenteditable>
+p {
+	font-size: 13em;
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Extends</h2>
+
+				<pre><code data-trim contenteditable>
+%big-text { // Silent/Placeholder selector! SASS/Scss only
+    font-size: 20em;
+    font-weight: bold;
+}
+
+%dashed-underline {
+    border-bottom: 3px dashed;
+}
+
+.error {
+    @extend %dashed-underline;
+
+    color: red;
+}
+
+.server-error {
+    @extend %big-text;
+    @extend .error;
+
+    font-size: 30em;
+}
+					</code></pre>
+
+					<aside class="notes">
+						<p>Silent/Placeholder selectors are only available in Sass/SCSS!</p>
+
+						<p>LESS won't extend child selectors unless you pass in <code>all</code></p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Extends (compiled)</h2>
+
+				<pre><code data-trim contenteditable>
+.server-error {
+  font-size: 20em;
+  font-weight: bold;
+}
+
+.error, .server-error {
+  border-bottom: 3px dashed;
+}
+
+.error, .server-error {
+  color: red;
+}
+
+.server-error {
+  font-size: 30em;
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Conditions</h2>
+
+				<pre><code data-trim contenteditable>
+$size: medium;
+
+p {
+	@if $size == xsmall {
+		font-size: 8px;
+	} @else if $size == small {
+		font-size: 10px;
+	} @else if $size == large {
+		font-size: 24px;
+	} @else if $size == xlarge {
+		font-size: 32px;
+	} @else {
+		font-size: 16px;
+	}
+}
+					</code></pre>
+									<pre><code data-trim contenteditable>
+p {
+  font-size: 16px;
+}
+					</code></pre>
+				</section>
+
+				</section>
+
+				<section>
+					<h2>For Loops</h2>
+					<pre><code data-trim contenteditable>
+@for $i from 1 through 5 {
+  li.item-#{$i} { width: 1.5em * $i; }
+}
+</code></pre>
+
+<pre><code data-trim contenteditable>
+li.item-1 {
+  width: 1.5em; 
+}
+
+li.item-2 {
+  width: 3em; 
+}
+
+li.item-3 {
+  width: 4.5em; 
+}
+
+li.item-4 {
+  width: 6em; 
+}
+
+li.item-5 {
+  width: 7.5em; 
+}
+</code></pre>
+				</section>
+
+				<section>
+					<h2>Each Loops</h2>
+					<pre><code data-trim contenteditable>
+@each $employee in Pete, Mike, Martin, Yann {
+  li.employee-#{$employee} {
+    background-image: url('/images/photos/#{$employee}.jpg');
+  }
+}
+</code></pre>
+
+<pre><code data-trim contenteditable>
+li.employee-Pete {
+  background-image: url("/images/photos/Pete.jpg");
+}
+
+li.employee-Mike {
+  background-image: url("/images/photos/Mike.jpg");
+}
+
+li.employee-Martin {
+  background-image: url("/images/photos/Martin.jpg");
+}
+
+li.employee-Yann {
+  background-image: url("/images/photos/Yann.jpg");
+}
+</code></pre>
+				</section>
+
+				<section>
+					<h2>While Loops</h2>
+					<pre><code data-trim contenteditable>
+$i: 6;
+@while $i > 0 {
+  .item-#{$i} { width: 2em * $i; }
+  $i: $i - 2;
+}
+</code></pre>
+
+<pre><code data-trim contenteditable>
+.item-6 {
+  width: 12em; 
+}
+
+.item-4 {
+  width: 8em; 
+}
+
+.item-2 {
+  width: 4em; 
+}
+</code></pre>
+<p>Shamefully copied from sass-lang.com because I can't think of a realistic use case</p>
+				</section>
+
+
+				<!-- III. Real World -->
+				<section data-background="#007777">
+					<h2>What about using this stuff in the real world?</h2>
+				</section>
+
+				<section>
+					<h2>Best Practices &amp; Pitfalls</h2>
+				</section>
+
+				<section>
+					<h2>Killer App of CSS Preprocessors: Configuration</h2>
+					<p>Color palette, typography, etc should be configurable.</p>
+				</section>
+
+				<section>
+					<h2>Config Example: Typography</h2>
+
+					<pre><code data-trim contenteditable>
+$sans-serif: 'Open Sans',sans-serif;
+$sans-serif-cond: 'Open Sans Condensed',sans-serif;
+$serif: 'Lora',serif;
+$header-font: 'Roboto Condensed',sans-serif;
+
+$base-font-family: $sans-serif;
+$base-font-size: 16px;
+$base-line-height: 24px;
+
+// The font sizes for h1-h6.
+$h1-font-size: 2.5  * $base-font-size;
+$h2-font-size: 1.5  * $base-font-size;
+$h3-font-size: 1.17 * $base-font-size;
+$h4-font-size: 1    * $base-font-size;
+$h5-font-size: 0.83 * $base-font-size;
+$h6-font-size: 0.67 * $base-font-size;
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Config Example: Color Palette</h2>
+
+					<pre><code data-trim contenteditable>
+$white: #fff;
+
+$darkest-gray: #333;
+$dark-gray: #444;
+$light-gray: #F2F2F2;
+$gray: #666;
+
+$black: #1D1D1D;
+$blue: #00AEFF;
+
+// Use that palette!
+$background: $white;
+$text-color: $black;
+$header-color: $dark-gray;
+
+$link-color: $blue;
+$link-color-hover: darken($blue, 3%);
+// etc, etc
+					</code></pre>
+
+					<aside class="notes">
+						<p>A look under the hood of Bootstrap shows that the framework is highly configurable. Take a page from their book, it's the right idea!</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Use Imports</h2>
+					<p>Should look like a table of contents for your styles</p>
+					
+					<pre><code data-trim contenteditable>
+@import "base"; // Where configuration lives
+
+@import "mixins"; // Global mixins
+@import "partials"; // Doesn't get compiled to CSS
+
+@import "global/layout";
+@import "global/header/search";
+@import "global/header/navigation";
+@import "global/footer";
+@import "global/side-nav";
+
+@import "views/articles/interactive";
+@import "views/articles/features";
+@import "views/articles/photos";
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Smart Folder Structure</h2>
+
+					<img src="images/smart-folder-structure.png" alt="Smarter folder structure" />
+				</section>
+
+				<section>
+					<h2>Careful with variable flipping</h2>
+					<p>Careful with em based layouts and derivative color palettes</p>
+
+					<pre><code data-trim contenteditable>
+$base-color: blue;
+
+// If $base-color changes, this could be very alarming
+$link-color: darken($base-color, 5%); 
+
+$base-font-size: 16px;
+
+// If $base-font-size changes, could be *huge*, or tiny!
+$h1-font-size: $base-font-size * 2.5; 
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Avoid Deep Nests</h2>
+					<p>Don't mimic HTML structure, use minimal selectors</p>
+
+					<pre><code data-trim contenteditable>
+.slideshow {
+	div {
+		header {
+			h3.title {
+				
+				a {
+					color: blue;	
+				}
+			}
+		}
+	}
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Avoid Deep Nests (compiled)</h2>
+					<p>Looks benign, creates specificity nightmares</p>
+
+					<pre><code data-trim contenteditable>
+.slideshow div header h3.title a {
+  color: blue;
+}
+					</code></pre>
+
+					<aside class="notes">
+						<p>A good rule of thumb is never go more than 3 levels deep</p>
+						<p>Use ~3 classes per element: base, modifier, state</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Limit and Flatten Classes</h2>
+					<p>Use extends and mixins to keep things DRY</p>
+
+					<pre><code data-trim contenteditable>
+.article {
+	font-size: 20px;
+	color: black;
+}
+
+.featured {
+	font-size: 30px;
+}
+
+.featured-sponsored {
+	@extend .featured;
+	color: yellow;
+}
+					</code></pre>
+
+					<pre><code data-trim contenteditable>
+&lt;section class="article featured"&gt;
+	&lt;h3&gt;Article Title&lt;/h3&gt;
+&lt;/section&gt;
+
+&lt;section class="articled featured-sponsored"&gt;
+	&lt;h2&gt;This article is a *featured* sponsored article&lt;/h2&gt;
+&lt;/section&gt;
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Watch for Bloat</h2>
+					<pre><code data-trim contenteditable>
+%clearfix {
+  &:before, &:after { content: " "; display: table; }
+  &:after { clear: both; }
+}
+
+.article {
+  @extend %clearfix;
+  padding: 10px;
+
+  h3 {
+    @extend %clearfix;
+    color: green;
+   
+    .title { float: left; }
+  }
+}
+
+.featured-article { @extend .article; }
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Watch for Bloat (compiled)</h2>
+					<p>Consider nesting strategy, extends, and mixins as you go</p>
+
+					<pre><code data-trim contenteditable>
+.article:before, .featured-article:before, .article h3:before, .featured-article h3:before, .article:after, .featured-article:after, .article h3:after, .featured-article h3:after {
+  content: " ";
+  display: table;
+}
+.article:after, .featured-article:after, .article h3:after, .featured-article h3:after {
+  clear: both;
+}
+
+.article, .featured-article {
+  padding: 10px;
+}
+.article h3, .featured-article h3 {
+  color: green;
+}
+.article h3 .title, .featured-article h3 .title {
+  float: left;
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>On Deployment &amp; Workflow</h2>
+				</section>
+
+				<section>
+					<h2>Wrap Up!</h2>
+				</section>
+
+				<section>
+					<h1>Questions?</h1>
+
+					<h3>Thank you!</h3>
+
+					<p>
+							<a href="http://lincolnloop.com/about/mtrythall">Michael Trythall</a> / 
+							<a href="http://twitter.com/mtrythall">@mtrythall</a>
+					</p>
+
+					<br /> <!-- Ugh gross -->
+
+					<p>Watch <a href="http://git.io/729TEQ">http://git.io/729TEQ</a> for more examples</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: 'night', // available themes are in /css/theme
+				transition: 'linear',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+		<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+	</body>
+</html>
